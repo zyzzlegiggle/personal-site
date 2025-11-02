@@ -8,35 +8,7 @@ const blogPosts = [
     description: "A comprehensive guide to building modern web applications with React and TypeScript. Learn the fundamentals and best practices.",
     date: "2024-03-15",
     readTime: "5 min read",
-  },
-  {
-    id: 2,
-    title: "The Art of Clean Code",
-    description: "Exploring principles and techniques for writing maintainable, readable code that stands the test of time.",
-    date: "2024-03-10",
-    readTime: "7 min read",
-  },
-  {
-    id: 3,
-    title: "Building Scalable Web Applications",
-    description: "Architectural patterns and strategies for creating applications that grow with your needs.",
-    date: "2024-03-05",
-    readTime: "10 min read",
-  },
-  {
-    id: 4,
-    title: "Modern CSS Techniques",
-    description: "Discover the latest CSS features and how to use them effectively in your projects.",
-    date: "2024-02-28",
-    readTime: "6 min read",
-  },
-  {
-    id: 5,
-    title: "Understanding Async JavaScript",
-    description: "Dive deep into promises, async/await, and asynchronous programming patterns.",
-    date: "2024-02-20",
-    readTime: "8 min read",
-  },
+  }
 ];
 
 const Blogs = () => {
@@ -47,7 +19,7 @@ const Blogs = () => {
         <div className="mb-12 animate-fade-in">
           <h1 className="mb-4 text-4xl font-bold tracking-tight">Blog</h1>
           <p className="text-lg text-muted-foreground">
-            Thoughts on technology, design, and development
+            Thoughts on technology, design, and engineering
           </p>
         </div>
         <div className="space-y-8">

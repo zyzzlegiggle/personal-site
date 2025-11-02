@@ -12,21 +12,7 @@ const featuredBlogs = [
     description: "A comprehensive guide to building modern web applications with React and TypeScript.",
     date: "2024-03-15",
     readTime: "5 min read",
-  },
-  {
-    id: 2,
-    title: "The Art of Clean Code",
-    description: "Exploring principles and techniques for writing maintainable, readable code.",
-    date: "2024-03-10",
-    readTime: "7 min read",
-  },
-  {
-    id: 3,
-    title: "Building Scalable Web Applications",
-    description: "Architectural patterns and strategies for creating applications that grow with your needs.",
-    date: "2024-03-05",
-    readTime: "10 min read",
-  },
+  }
 ];
 
 const Index = () => {
@@ -45,30 +31,30 @@ const Index = () => {
               />
             </div>
             <h1 className="mb-4 animate-fade-in text-5xl font-bold tracking-tight">
-              John Doe
+              Josse Alexander Halim
             </h1>
             <p
               className="mb-8 text-xl text-muted-foreground"
               style={{ animation: "fade-in 0.6s ease-out 0.2s forwards", opacity: 0 }}
             >
-              Software Developer & Writer
+              Some subtitle here
             </p>
             <div
               className="mb-8 flex items-center justify-center gap-4"
               style={{ animation: "fade-in 0.6s ease-out 0.4s forwards", opacity: 0 }}
             >
               <Button variant="ghost" size="icon" asChild>
-                <a href="https://github.com" target="_blank" rel="noopener noreferrer">
+                <a href="https://github.com/zyzzlegiggle" target="_blank" rel="noopener noreferrer">
                   <Github className="h-5 w-5" />
                 </a>
               </Button>
               <Button variant="ghost" size="icon" asChild>
-                <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">
+                <a href="https://www.linkedin.com/in/josse-alexander-halim-919470288/" target="_blank" rel="noopener noreferrer">
                   <Linkedin className="h-5 w-5" />
                 </a>
               </Button>
               <Button variant="ghost" size="icon" asChild>
-                <a href="https://twitter.com" target="_blank" rel="noopener noreferrer">
+                <a href="https://x.com/zyzzlegiggle" target="_blank" rel="noopener noreferrer">
                   <Twitter className="h-5 w-5" />
                 </a>
               </Button>
@@ -83,8 +69,7 @@ const Index = () => {
               style={{ animation: "fade-in 0.6s ease-out 0.6s forwards", opacity: 0 }}
             >
               <p className="text-muted-foreground">
-                I'm passionate about building beautiful, functional web applications and sharing
-                knowledge through writing. Explore my latest blog posts and book recommendations.
+                Building some stuffs over internet
               </p>
             </div>
           </div>

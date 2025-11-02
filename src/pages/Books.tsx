@@ -10,47 +10,7 @@ const books = [
     rating: 5,
     status: "Completed",
     notes: "Essential reading for any software developer. Teaches the fundamentals of writing maintainable code.",
-  },
-  {
-    id: 2,
-    title: "The Pragmatic Programmer",
-    author: "David Thomas & Andrew Hunt",
-    rating: 5,
-    status: "Completed",
-    notes: "Timeless wisdom on software craftsmanship and professional development.",
-  },
-  {
-    id: 3,
-    title: "Design Patterns",
-    author: "Gang of Four",
-    rating: 4,
-    status: "Reading",
-    notes: "The classic text on software design patterns. Dense but invaluable.",
-  },
-  {
-    id: 4,
-    title: "Refactoring",
-    author: "Martin Fowler",
-    rating: 5,
-    status: "Completed",
-    notes: "Comprehensive guide to improving code structure without changing behavior.",
-  },
-  {
-    id: 5,
-    title: "Atomic Habits",
-    author: "James Clear",
-    rating: 5,
-    status: "Completed",
-    notes: "Life-changing insights on building good habits and breaking bad ones.",
-  },
-  {
-    id: 6,
-    title: "Thinking, Fast and Slow",
-    author: "Daniel Kahneman",
-    rating: 4,
-    status: "Reading",
-    notes: "Fascinating exploration of the two systems that drive the way we think.",
-  },
+  }
 ];
 
 const Books = () => {
