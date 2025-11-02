@@ -1,6 +1,6 @@
 import Navigation from "@/components/Navigation";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { BookOpen, Star } from "lucide-react";
+import { Link } from "react-router-dom";
+import { Star } from "lucide-react";
 
 const books = [
   {
@@ -57,52 +57,45 @@ const Books = () => {
   return (
     <div className="min-h-screen bg-background">
       <Navigation />
-      <main className="container mx-auto px-6 py-16">
+      <main className="container mx-auto px-6 py-16 max-w-3xl">
         <div className="mb-12 animate-fade-in">
           <h1 className="mb-4 text-4xl font-bold tracking-tight">Books</h1>
           <p className="text-lg text-muted-foreground">
             My reading list and recommendations
           </p>
         </div>
-        <div className="grid gap-6 md:grid-cols-2">
+        <div className="space-y-8">
           {books.map((book, index) => (
-            <Card
+            <Link
               key={book.id}
-              className="group transition-all hover:shadow-lg"
+              to={`/books/${book.id}`}
+              className="block group animate-fade-in"
               style={{
-                animation: `slide-up 0.6s ease-out forwards`,
                 animationDelay: `${index * 0.1}s`,
-                opacity: 0,
               }}
             >
-              <CardHeader>
-                <div className="flex items-start justify-between">
-                  <div className="flex-1">
-                    <CardTitle className="mb-1">{book.title}</CardTitle>
-                    <CardDescription>{book.author}</CardDescription>
-                  </div>
-                  <div className="flex items-center gap-1">
+              <article className="space-y-2">
+                <div className="flex items-baseline gap-3">
+                  <h2 className="text-2xl font-semibold group-hover:text-accent transition-colors">
+                    {book.title}
+                  </h2>
+                  <div className="flex items-center gap-0.5">
                     {[...Array(5)].map((_, i) => (
                       <Star
                         key={i}
                         className={`h-4 w-4 ${
                           i < book.rating
                             ? "fill-accent text-accent"
-                            : "text-muted-foreground"
+                            : "fill-muted text-muted"
                         }`}
                       />
                     ))}
                   </div>
                 </div>
-              </CardHeader>
-              <CardContent className="space-y-3">
-                <div className="flex items-center gap-2">
-                  <BookOpen className="h-4 w-4 text-muted-foreground" />
-                  <span className="text-sm font-medium">{book.status}</span>
-                </div>
+                <p className="text-muted-foreground">{book.author}</p>
                 <p className="text-sm text-muted-foreground">{book.notes}</p>
-              </CardContent>
-            </Card>
+              </article>
+            </Link>
           ))}
         </div>
       </main>
