@@ -11,6 +11,10 @@ export const blogPosts = {
 
         <ul>
           <li>
+            <a href="https://lunchpot.site/">Lunchpot</a> —  
+            simple app where you can find recommended food near you with one click of a button.
+          </li>
+          <li>
             <a href="https://github.com/zyzzlegiggle/storyblok-cli-ai">Storyblok CLI-AI</a> —  
             a scaffolder where you describe the app you want, and it generates the project
             and integrates Storyblok (hackathon).
@@ -58,7 +62,7 @@ export const blogPosts = {
 
         <ul>
           <li>
-            <a href="https://github.com/zyzzlegiggle/Weather50">Weather50</a> —  
+            <a href="https://weather50.netlify.app/">Weather50</a> —  
             my first program ever, built using just HTML, CSS, and JavaScript.  
             A simple weather app that kicked off everything.
           </li>
