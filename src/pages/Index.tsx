@@ -4,17 +4,12 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Github, Linkedin, Mail, Twitter, Calendar } from "lucide-react";
 import { Link } from "react-router-dom";
 import profileImage from "@/assets/profile.jpg";
+import { blogPosts } from "@/data/blogs";
 
-const featuredBlogs = [
-  {
-    id: 1,
-    title: "Getting Started with React and TypeScript",
-    description: "A comprehensive guide to building modern web applications with React and TypeScript.",
-    date: "2024-03-15",
-    readTime: "5 min read",
-  }
-];
-
+const featuredBlogs = Object.entries(blogPosts)
+  .map(([id, post]) => ({ id, ...post }))
+  .slice(0, 3);
+  
 const Index = () => {
   return (
     <div className="min-h-screen bg-background">
@@ -37,7 +32,7 @@ const Index = () => {
               className="mb-8 text-xl text-muted-foreground"
               style={{ animation: "fade-in 0.6s ease-out 0.2s forwards", opacity: 0 }}
             >
-              Some subtitle here
+              Hi I'm Josse
             </p>
             <div
               className="mb-8 flex items-center justify-center gap-4"
@@ -69,7 +64,7 @@ const Index = () => {
               style={{ animation: "fade-in 0.6s ease-out 0.6s forwards", opacity: 0 }}
             >
               <p className="text-muted-foreground">
-                Building some stuffs over internet
+                Making something
               </p>
             </div>
           </div>
@@ -85,32 +80,35 @@ const Index = () => {
           </div>
           <div className="grid gap-6 md:grid-cols-3">
             {featuredBlogs.map((post, index) => (
-              <Card
-                key={post.id}
-                className="group cursor-pointer transition-all hover:shadow-lg"
-                style={{
-                  animation: `slide-up 0.6s ease-out forwards`,
-                  animationDelay: `${index * 0.1}s`,
-                  opacity: 0,
-                }}
-              >
-                <CardHeader>
-                  <CardTitle className="group-hover:text-accent transition-colors">
-                    {post.title}
-                  </CardTitle>
-                  <CardDescription>{post.description}</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="flex items-center gap-4 text-sm text-muted-foreground">
-                    <div className="flex items-center gap-1">
-                      <Calendar className="h-4 w-4" />
-                      <span>{post.date}</span>
+              <Link to={`/blogs/${post.id}`} className="block">
+                <Card
+                  key={post.id}
+                  className="group cursor-pointer transition-all hover:shadow-lg"
+                  style={{
+                    animation: `slide-up 0.6s ease-out forwards`,
+                    animationDelay: `${index * 0.1}s`,
+                    opacity: 0,
+                  }}
+                >
+                  <CardHeader>
+                    <CardTitle className="group-hover:text-accent transition-colors">
+                      {post.title}
+                    </CardTitle>
+                    <CardDescription>{post.description}</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="flex items-center gap-4 text-sm text-muted-foreground">
+                      <div className="flex items-center gap-1">
+                        <Calendar className="h-4 w-4" />
+                        <span>{post.date}</span>
+                      </div>
+                      <span>•</span>
+                      <span>{post.readTime}</span>
                     </div>
-                    <span>•</span>
-                    <span>{post.readTime}</span>
-                  </div>
-                </CardContent>
-              </Card>
+                  </CardContent>
+                </Card>
+              </Link>
+
             ))}
           </div>
         </section>

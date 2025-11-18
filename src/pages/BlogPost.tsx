@@ -1,13 +1,29 @@
 import Navigation from "@/components/Navigation";
 import { useParams, Link } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
+import { blogPosts } from "@/data/blogs";
 
 const BlogPost = () => {
   const { id } = useParams();
+  const post = blogPosts[id];
+
+  console.log(post)
+
+  if (!post) {
+    return (
+      <div className="min-h-screen bg-background">
+        <Navigation />
+        <main className="container mx-auto px-6 py-16 max-w-3xl">
+          <p className="text-muted-foreground">Post not found.</p>
+        </main>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-background">
       <Navigation />
+
       <main className="container mx-auto px-6 py-16 max-w-3xl">
         <Link
           to="/blogs"
@@ -19,54 +35,16 @@ const BlogPost = () => {
 
         <article className="space-y-6 animate-fade-in">
           <header className="space-y-4">
-            <h1 className="text-4xl font-bold tracking-tight">
-              Getting Started with React and TypeScript
-            </h1>
+            <h1 className="text-4xl font-bold tracking-tight">{post.title}</h1>
             <div className="flex items-center gap-3 text-sm text-muted-foreground">
-              <span>March 15, 2024</span>
+              <span>{post.date}</span>
               <span>•</span>
-              <span>5 min read</span>
+              <span>{post.readTime}</span>
             </div>
           </header>
 
           <div className="prose prose-neutral dark:prose-invert max-w-none">
-            <p className="text-lg text-muted-foreground">
-              A comprehensive guide to building modern web applications with React and TypeScript.
-              Learn the fundamentals and best practices.
-            </p>
-
-            <h2>Introduction</h2>
-            <p>
-              React and TypeScript are a powerful combination for building modern web applications.
-              In this guide, we'll explore the fundamentals and best practices for getting started.
-            </p>
-
-            <h2>Why TypeScript?</h2>
-            <p>
-              TypeScript adds static typing to JavaScript, which helps catch errors early and
-              improves code quality. It's especially useful in larger projects where maintainability
-              is crucial.
-            </p>
-
-            <h2>Getting Started</h2>
-            <p>
-              To get started with React and TypeScript, you can use Vite or Create React App with
-              the TypeScript template. Both provide a solid foundation for your project.
-            </p>
-
-            <h2>Best Practices</h2>
-            <ul>
-              <li>Use proper TypeScript types for all your components and functions</li>
-              <li>Leverage React hooks for state management</li>
-              <li>Keep components small and focused</li>
-              <li>Write meaningful commit messages</li>
-            </ul>
-
-            <h2>Conclusion</h2>
-            <p>
-              React and TypeScript together provide a robust development experience. Start small,
-              learn the fundamentals, and gradually build more complex applications.
-            </p>
+            {post.content}
           </div>
         </article>
       </main>
