@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { getLocalData, setLocalData } from '@/lib/storage';
+import { supabase } from '@/lib/supabaseClient';
 import { books as initialBooks } from '@/data/books';
 import { blogPosts as initialBlogs } from '@/data/blogs';
 
@@ -27,54 +27,101 @@ export interface BlogPosts {
 }
 
 export const useContent = () => {
-    const [books, setBooks] = useState<Book[]>([]);
-    const [blogs, setBlogs] = useState<BlogPosts>({});
+    const [books, setBooks] = useState<Book[]>(initialBooks);
+    const [blogs, setBlogs] = useState<BlogPosts>(initialBlogs);
+    const [loading, setLoading] = useState(true);
 
     // Load data on mount
     useEffect(() => {
-        const storedBooks = getLocalData<Book[]>('local_books', []);
-        // Merge initial books with stored books. 
-        // We'll just append stored books to the list for now, or use them if we want to allow editing (but requirement is just adding).
-        // To avoid duplicates if we re-save initial data, we might want to separate them.
-        // But for simplicity, let's treat 'local_books' as *additional* books.
+        const fetchData = async () => {
+            setLoading(true);
 
-        // Actually, a better approach for "adding" is to have a list of user-added items.
-        // Let's keep it simple: local_books contains ONLY user added books.
-        // We combine them when returning.
+            // Fetch Books
+            const { data: booksData, error: booksError } = await supabase
+                .from('books')
+                .select('*');
 
-        setBooks([...initialBooks, ...storedBooks]);
+            if (booksError) {
+                console.error('Error fetching books:', booksError);
+            } else if (booksData) {
+                // Merge with initial books. 
+                // Note: Supabase IDs might conflict with initial IDs (1-6).
+                // For now, we'll just append them. Ideally we'd migrate initial data to DB.
+                setBooks([...initialBooks, ...booksData]);
+            }
 
-        const storedBlogs = getLocalData<BlogPosts>('local_blogs', {});
-        setBlogs({ ...initialBlogs, ...storedBlogs });
+            // Fetch Blogs
+            const { data: blogsData, error: blogsError } = await supabase
+                .from('blogs')
+                .select('*');
+
+            if (blogsError) {
+                console.error('Error fetching blogs:', blogsError);
+            } else if (blogsData) {
+                const newBlogs: BlogPosts = {};
+                blogsData.forEach((blog: any) => {
+                    newBlogs[blog.id] = {
+                        title: blog.title,
+                        date: blog.date,
+                        description: blog.description,
+                        readTime: blog.read_time,
+                        content: blog.content
+                    };
+                });
+                setBlogs({ ...initialBlogs, ...newBlogs });
+            }
+
+            setLoading(false);
+        };
+
+        fetchData();
     }, []);
 
-    const addBook = (newBook: Omit<Book, 'id'>) => {
-        const storedBooks = getLocalData<Book[]>('local_books', []);
-        // Generate a new ID. simpler to just use timestamp or max id + 1
-        // Existing IDs are 1-6.
-        const maxId = Math.max(...initialBooks.map(b => b.id), ...storedBooks.map(b => b.id), 0);
-        const bookWithId = { ...newBook, id: maxId + 1 };
+    const addBook = async (newBook: Omit<Book, 'id'>) => {
+        const { data, error } = await supabase
+            .from('books')
+            .insert([newBook])
+            .select();
 
-        const updatedStoredBooks = [...storedBooks, bookWithId];
-        setLocalData('local_books', updatedStoredBooks);
-
-        // Update state
-        setBooks([...initialBooks, ...updatedStoredBooks]);
+        if (error) {
+            console.error('Error adding book:', error);
+            alert('Error adding book');
+        } else if (data) {
+            setBooks(prev => [...prev, data[0]]);
+        }
     };
 
-    const addBlog = (newBlog: BlogPost) => {
-        const storedBlogs = getLocalData<BlogPosts>('local_blogs', {});
-        // Generate a new ID. Existing keys are "1".
-        // Let's use a timestamp or increment.
-        const existingIds = [...Object.keys(initialBlogs), ...Object.keys(storedBlogs)].map(Number);
-        const maxId = Math.max(...existingIds, 0);
-        const newId = (maxId + 1).toString();
+    const addBlog = async (newBlog: BlogPost) => {
+        // Map to DB columns
+        const dbBlog = {
+            title: newBlog.title,
+            date: newBlog.date,
+            description: newBlog.description,
+            read_time: newBlog.readTime,
+            content: newBlog.content
+        };
 
-        const updatedStoredBlogs = { ...storedBlogs, [newId]: newBlog };
-        setLocalData('local_blogs', updatedStoredBlogs);
+        const { data, error } = await supabase
+            .from('blogs')
+            .insert([dbBlog])
+            .select();
 
-        // Update state
-        setBlogs({ ...initialBlogs, ...updatedStoredBlogs });
+        if (error) {
+            console.error('Error adding blog:', error);
+            alert('Error adding blog');
+        } else if (data) {
+            const createdBlog = data[0];
+            setBlogs(prev => ({
+                ...prev,
+                [createdBlog.id]: {
+                    title: createdBlog.title,
+                    date: createdBlog.date,
+                    description: createdBlog.description,
+                    readTime: createdBlog.read_time,
+                    content: createdBlog.content
+                }
+            }));
+        }
     };
 
     return {
@@ -82,5 +129,6 @@ export const useContent = () => {
         blogs,
         addBook,
         addBlog,
+        loading
     };
 };

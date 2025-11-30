@@ -1,7 +1,22 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Navigation from "@/components/Navigation";
 import { useContent, Book, BlogPost } from "@/hooks/useContent";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
+
+const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
+    const { session, loading } = useAuth();
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (!loading && !session) {
+            navigate("/login");
+        }
+    }, [session, loading, navigate]);
+
+    if (loading) return <div>Loading...</div>;
+    return session ? <>{children}</> : null;
+};
 
 const AddContent = () => {
     const { addBook, addBlog } = useContent();
@@ -219,4 +234,8 @@ const AddContent = () => {
     );
 };
 
-export default AddContent;
+export default () => (
+    <ProtectedRoute>
+        <AddContent />
+    </ProtectedRoute>
+);
