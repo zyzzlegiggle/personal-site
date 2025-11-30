@@ -1,11 +1,12 @@
 import Navigation from "@/components/Navigation";
 import { useParams, Link } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
-import { blogPosts } from "@/data/blogs";
+import { useContent } from "@/hooks/useContent";
 
 const BlogPost = () => {
   const { id } = useParams();
-  const post = blogPosts[id];
+  const { blogs } = useContent();
+  const post = id ? blogs[id] : undefined;
 
   console.log(post)
 

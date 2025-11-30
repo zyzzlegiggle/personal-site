@@ -1,9 +1,10 @@
 import Navigation from "@/components/Navigation";
-import { blogPosts } from "@/data/blogs";
+import { useContent } from "@/hooks/useContent";
 import { Link } from "react-router-dom";
 
 
 const Blogs = () => {
+  const { blogs } = useContent();
   return (
     <div className="min-h-screen bg-background">
       <Navigation />
@@ -15,7 +16,7 @@ const Blogs = () => {
           </p>
         </div>
         <div className="space-y-8">
-          {Object.entries(blogPosts).map(([id, post], index) => (
+          {Object.entries(blogs).map(([id, post], index) => (
             <Link
               key={id}
               to={`/blogs/${id}`}

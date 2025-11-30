@@ -1,10 +1,11 @@
 import Navigation from "@/components/Navigation";
 import { useParams, Link } from "react-router-dom";
 import { ArrowLeft, Star } from "lucide-react";
-import { books } from "@/data/books";
+import { useContent } from "@/hooks/useContent";
 
 const BookDetail = () => {
   const { id } = useParams();
+  const { books } = useContent();
   const book = books.find((b) => b.id.toString() === id);
 
   if (!book) {
@@ -45,9 +46,8 @@ const BookDetail = () => {
                 {[...Array(5)].map((_, i) => (
                   <Star
                     key={i}
-                    className={`h-5 w-5 ${
-                      i < book.rating ? "fill-accent text-accent" : "fill-muted text-muted"
-                    }`}
+                    className={`h-5 w-5 ${i < book.rating ? "fill-accent text-accent" : "fill-muted text-muted"
+                      }`}
                   />
                 ))}
               </div>
